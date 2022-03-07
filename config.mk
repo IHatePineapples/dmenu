@@ -23,9 +23,13 @@ INCS = -I$(X11INC) -I$(FREETYPEINC)
 LIBS = -L$(X11LIB) -lX11 $(XINERAMALIBS) $(FREETYPELIBS)
 
 # flags
-CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_POSIX_C_SOURCE=200809L -DVERSION=\"$(VERSION)\" $(XINERAMAFLAGS)
-CFLAGS   = -std=c99 -pedantic -Wall -Os $(INCS) $(CPPFLAGS)
+CPPFLAGS = -D_GLIBCXX_ASSERTIONS -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_POSIX_C_SOURCE=200809L -DVERSION=\"$(VERSION)\" $(XINERAMAFLAGS)
+CFLAGS   = -std=c99 -pedantic -Wall -march=native -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-clash-protection -fexceptions -fstack-protector-strong -fcf-protection -fpie -fpic -ftree-vectorize -fomit-frame-pointer $(INCS) $(CPPFLAGS)
 LDFLAGS  = $(LIBS)
 
 # compiler and linker
 CC = cc
+
+# additionnal options
+MAKEOPTS="-j4"
+
